@@ -4,6 +4,7 @@ require "metherd-missing/trie_node"
 
 module Kernel
   def method_missing(method, *args, &block)
+    return super if method.to_s == "to_io"
     possible_method_names = self.methods.map(&:to_s)
     results = MetherdMissing::LevenshteinDistance.new(possible_method_names).search(method, 1)
     if results.any?
